@@ -78,13 +78,6 @@ function display_info(){
 	var table_end = "</table>";
 	
 	for(var i=0; i<localStorage.length; i++){
-		if(i == 0){//special case for i = 0
-			var username = "Password Memorizer";
-			var password = localStorage.getItem(localStorage.key(i));
-			var website = " - ";
-			
-			table_body = table_body + "<tr><td>"+username+"</td><td>"+password+"</td><td>"+website+"</td></tr>";
-		} else {
 			var website = localStorage.key(i);
 			var pos_of_plus = localStorage.getItem(website).indexOf('+');
 			//the key value is made from username+'+'+pasword
@@ -92,7 +85,6 @@ function display_info(){
 			var password = localStorage.getItem(website).substr(pos_of_plus+1);
 		
 			table_body = table_body + "<tr><td>"+username+"</td><td>"+password+"</td><td>"+website+"</td></tr>";
-		}
 	}
 	
 	document.getElementById("secret").innerHTML = table_head + table_body + table_end;
