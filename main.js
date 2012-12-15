@@ -1,3 +1,5 @@
+var settings_hide = true;
+
 function user_exist(){
 	if(localStorage.getItem("main")){
 	//user already exist
@@ -50,6 +52,15 @@ function login(){
 		document.getElementById("check").innerHTML = new_com;
 		var new_form = "Username: <input id='username' type=text /><br/>Password: <input id='pass' type=password /><br/>Website (Unique): <input id='website' type=text />";
 		document.getElementById("fill").innerHTML = new_form;
+		new_form = "<button class='button' onclick='generate()'>Generator</button><button class='button' onclick='settings_toggle()'>Settings</button><br/><br/>";
+		new_form += "<div id='settings_area' class='hidden'>";
+		new_form += "Generated password <input id='result_pass' readonly><br/>"
+		new_form += "Password length <input id='pass_length' type=text value='7' readonly/><br/>";
+		new_form += "Lower case Alphabet length <input id='lower_case_id' type=text value='7' onkeyup='auto_pass_length();'/><br/>";
+		new_form += "Upper case Alphabet length <input id='upper_case_id' type=text value='0' onkeyup='auto_pass_length();'/><br/>";
+		new_form += "Number length <input id='number_id' type=text value='0' onkeyup='auto_pass_length();'/><br/>";
+		new_form += "</div>";
+		document.getElementById("generate").innerHTML = new_form;
 		//display the 'secret'(password)
 		display_info();
 		
@@ -88,4 +99,78 @@ function display_info(){
 	}
 	
 	document.getElementById("secret").innerHTML = table_head + table_body + table_end;
+}
+
+function generate(){
+	var generate_result = "";
+	var pass_length = document.getElementById("pass_length").value;
+	//check validation before start generation----
+	if(Number(pass_length > 20)){
+		alert("Password length is too long.");
+	}
+	if(!Number(pass_length)){
+		alert("Invalid password length.");
+	}
+	//--------------------------------------------
+	
+	//gererator starts here
+	for(var i = 0; i < Number(document.getElementById("lower_case_id").value); i++){
+		generate_result += random_alphabet();
+	}
+	for(var i = 0; i < Number(document.getElementById("upper_case_id").value); i++){
+		generate_result += random_alphabet().toUpperCase();
+	}
+	for(var i = 0; i < Number(document.getElementById("number_id").value); i++){
+		generate_result += Math.floor(Math.random()*10);//random 0~9
+	}
+	//--------------------
+	
+	document.getElementById("pass").value = generate_result;
+	document.getElementById("result_pass").value = generate_result;
+}
+function settings_toggle(){
+	if(settings_hide){
+		settings_hide = false;
+		document.getElementById("settings_area").className = "";
+	} else {
+		settings_hide = true;
+		document.getElementById("settings_area").className = "hidden";
+	}
+}
+function auto_pass_length(){
+	document.getElementById("pass_length").value = 
+		Number(document.getElementById("lower_case_id").value) +
+		Number(document.getElementById("upper_case_id").value) + 
+		Number(document.getElementById("number_id").value);
+}
+function random_alphabet(){
+	var rand = Math.floor(Math.random()*26);//0~25
+	switch(rand){
+	case 0:return 'a';
+	case 1:return 'b';
+	case 2:return 'c';
+	case 3:return 'd';
+	case 4:return 'e';
+	case 5:return 'f';
+	case 6:return 'g';
+	case 7:return 'h';
+	case 8:return 'i';
+	case 9:return 'j';
+	case 10:return 'k';
+	case 11:return 'l';
+	case 12:return 'm';
+	case 13:return 'n';
+	case 14:return 'o';
+	case 15:return 'p';
+	case 16:return 'q';
+	case 17:return 'r';
+	case 18:return 's';
+	case 19:return 't';
+	case 20:return 'u';
+	case 21:return 'v';
+	case 22:return 'w';
+	case 23:return 'x';
+	case 24:return 'y';
+	case 25:return 'z';
+	}
 }
